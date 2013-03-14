@@ -3,7 +3,8 @@ require 'rugged'
 require 'haml'
 require 'resque'
 require './git_clone'
-require './web_socket'
+require './web-socket'
+
 
 get '/track_deploys' do
   repo = Rugged::Repository.new('funding_circle_app_ready')
@@ -26,7 +27,7 @@ end
 
 get '/update_repo' do
   `echo 'updating' > .updating_repo`
-  Resque.enqueue(GitClone, @channel)
+  Resque.enqueue(GitClone)
 end
 
 get '/status' do
