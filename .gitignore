@@ -3,3 +3,4 @@ funding_circle_app_ready
 *.swo
 nohup.out
 *.pid
+config.yml

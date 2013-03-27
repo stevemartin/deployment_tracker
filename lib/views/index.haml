@@ -1,7 +1,7 @@
 %head
   %script{ :src => "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"}
   %script{ :src => "/updating.js" }
-    
+
 %body
   %div#debug
     %p
@@ -9,7 +9,7 @@
   %h1 Deployments Tracker
   %a{:href => '/update_repo', :id => 'updating_repo'}
     Update
-  %h2 
+  %h2
     Repo status:
     %span#current_status{:style => "color: blue;"}
   %p#time_running
@@ -26,3 +26,4 @@
           %td
             = td[1].to_s
 %input{:type => 'hidden', :id => 'for_refresh', :value => 'false'}
+%input{:type => 'hidden', :id => 'socket_addr', :value => "ws://#{@config["socket_host"]}:4568/"}

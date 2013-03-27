@@ -1,13 +1,16 @@
+require 'yaml'
 require 'em-websocket'
+
+@config = YAML.load_file(File.join(File.dirname(__FILE__), '../config.yml'))
 #t0 = Thread.start do
 
   EventMachine.run {
     @channel = EM::Channel.new
 
     git_clone = Proc.new do
-      `git clone git@github.com:FundingCircle/funding_circle_app.git #{File.join(File.dirname(__FILE__),'funding_circle_app')}`
-      `rm -rf #{File.join(File.dirname(__FILE__),'funding_circle_app_ready')}`
-      `mv #{File.join(File.dirname(__FILE__),'funding_circle_app')} #{File.join(File.dirname(__FILE__),'funding_circle_app_ready')}`
+      `git clone git@github.com:#{@config["github_user"]}/#{@config["repo"]}.git #{File.join(File.dirname(__FILE__),@config["repo"])}`
+      `rm -rf #{File.join(File.dirname(__FILE__),"#{@config["repo"]}_ready")}`
+      `mv #{File.join(File.dirname(__FILE__), @config["repo"])} #{File.join(File.dirname(__FILE__),"#{@config["repo"]}_ready")}`
       `echo 'synced' > #{File.join(File.dirname(__FILE__),'.updating_repo')}`
     end
 

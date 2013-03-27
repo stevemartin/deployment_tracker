@@ -3,9 +3,13 @@ require 'sinatra'
 require 'rugged'
 require 'haml'
 require 'active_support/core_ext'
+require 'yaml'
+
+@config = YAML.load_file(File.join(File.dirname(__FILE__), '../config.yml'))
 
 get '/track_deploys' do
-  repo = Rugged::Repository.new(File.join(File.dirname(__FILE__), 'funding_circle_app_ready'))
+  @config = YAML.load_file(File.join(File.dirname(__FILE__), '../config.yml'))
+  repo = Rugged::Repository.new(File.join(File.dirname(__FILE__), "#{@config["repo"]}_ready"))
   tags = repo.tags
   tag_groups = tags.group_by { |t| t.match(/deploy_\w*_/).to_s }
   tag_groups.delete("")
@@ -18,11 +22,6 @@ get '/track_deploys' do
   end
   haml :index
 
-end
-
-get '/update_repo' do
-  `echo 'updating' > #{File.join(File.dirname(__FILE__),'.updating_repo')}`
-  Resque.enqueue(GitClone)
 end
 
 get '/status' do
