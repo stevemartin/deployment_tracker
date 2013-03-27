@@ -2,3 +2,4 @@ funding_circle_app_ready
 *.swp
 *.swo
 nohup.out
+*.pid
