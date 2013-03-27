@@ -9,15 +9,17 @@
   %h1 Deployments Tracker
   %a{:href => '/update_repo', :id => 'updating_repo'}
     Update
-  %h2 Repo status:
-  %p#current_status
+  %h2 
+    Repo status:
+    %span#current_status{:style => "color: blue;"}
+  %p#time_running
   %table
     %thead
       %tr
         %th Environment
         %th Date & time of last deployment
     %tbody
-      - @table_data.each do |td|
+      - @table_data.sort_by {|r| r[2] }.reverse.each do |td|
         %tr
           %td
             = td[0].to_s
