@@ -1,2 +1,0 @@
-rackup -p 4567 -D
-ruby deploy_track_socket.rb start
