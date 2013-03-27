@@ -25,6 +25,8 @@ require 'em-websocket'
 	      if msg == "get_status"
             @channel.push `cat #{File.join(File.dirname(__FILE__),'.updating_repo')}`
           elsif msg == "update_repo"
+            `echo 'updating' > #{File.join(File.dirname(__FILE__),'.updating_repo')}`
+            @channel.push "updating\n"
             EM.defer(git_clone, gc_callback)
           else
             @channel.push "#{msg}"
@@ -40,30 +42,3 @@ require 'em-websocket'
 
   }
 
-#end
-
-=begin
-#t1 = Thread.start do
-class ReadLine < EM::Connection
-  attr_accessor :channel
-  def initialize channel
-    @channel = channel
-  end
-
-  def receive_data(data)
-    @channel.push data
-  end
-end
-
-EM::run do
-  EventMachine::start_server "0.0.0.0", 4569, ReadLine, @channel
-end
-=end
-
-#server = TCPServer.new 4569
-#client = server.accept#_nonblock
-#while data = client.read_nonblock(1)
-#  @channel.push data
-#end
-#end
-#Process.daemon
